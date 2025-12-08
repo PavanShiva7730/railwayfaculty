@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Online Classes Widget</title>
+  <title>Super Teachers Widget</title>
 
   <style>
     * {
@@ -12,77 +12,75 @@
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: #ffffff !important;
+      font-family: system-ui, Arial, sans-serif;
+        background: #ffffff !important;
       color: #111827;
     }
 
     .container {
       max-width: 1200px;
-      margin: 0 auto;
       padding: 16px;
+      margin: auto;
     }
 
-    .classes-section {
-      margin: 8px 0 24px;
-    }
-
-    .classes-heading {
-      font-size: 20px;
-      font-weight: 600;
-      border-left: 3px solid #2d6bfa;
-      padding-left: 8px;
-      margin-bottom: 12px;
-    }
-
-    @media (min-width: 640px) {
-      .classes-heading {
-        font-size: 24px;
-        border-left: none;
-        padding-left: 0;
-      }
-    }
-
-    .classes-highlights {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      font-size: 12px;
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
       margin-bottom: 16px;
     }
 
-    .highlight-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #4b5563;
+    @media (max-width: 640px) {
+      .section-title {
+        font-size: 20px;
+      }
     }
 
-    .highlight-check {
-      width: 16px;
-      height: 16px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #ebf2ff;
-      color: #2563eb;
-      font-size: 12px;
-      flex-shrink: 0;
-    }
-
+    /* Carousel */
     .carousel {
       position: relative;
-      margin-top: 8px;
     }
 
     .carousel-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+    }
+
+    .carousel-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .carousel-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: 0.2s;
+    }
+
+    .carousel-btn:hover {
+      background: #eef3ff;
+      transform: translateY(-2px);
+    }
+
+    .carousel-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+      transform: none;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 16px;
+      transition: transform 0.3s ease;
     }
 
     .carousel-viewport {
@@ -90,377 +88,261 @@
       width: 100%;
     }
 
-    .carousel-track {
-      display: flex;
-      gap: 16px;
-      will-change: transform;
-      transition: transform 0.3s ease;
-    }
-
-    .carousel-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      background: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.12);
-      transition: background 0.2s ease, transform 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    .carousel-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: #111827;
-    }
-
-    .carousel-btn:hover {
-      background: #f3f4ff;
-      transform: translateY(-1px);
-    }
-
-    .carousel-btn:disabled {
-      opacity: 0.4;
-      cursor: default;
-      box-shadow: none;
-      background: #ffffff;
-      transform: translateY(0);
-    }
-
-    .course-card {
+    /* Teacher Card */
+    .teacher-card {
       flex: 0 0 100%;
-      max-width: 260px;
-      background: #ffffff;
-      border-radius: 14px;
-      overflow: hidden;
+      min-width: 180px;
+      max-width: 220px;
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
       border: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.08);
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 4px;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: 0.2s ease;
     }
 
-    .course-card:hover {
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
-      transform: translateY(-1px);
+    .teacher-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
     }
 
-    .course-image-wrapper {
-      width: 100%;
-      padding-top: 60%;
-      position: relative;
+    .teacher-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
       overflow: hidden;
+      margin: auto;
+      margin-bottom: 12px;
+      background: linear-gradient(to bottom, #e8f0ff, transparent);
     }
 
-    .course-image-wrapper img {
-      position: absolute;
-      inset: 0;
+    .teacher-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: top;
     }
 
-    .course-content {
-      padding: 10px 12px 12px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .course-title {
-      font-size: 14px;
+    .teacher-name {
+      font-size: 16px;
       font-weight: 600;
       margin: 0;
-      line-height: 1.3;
+      margin-bottom: 4px;
     }
 
-    .course-provider {
+    .teacher-stats {
       font-size: 12px;
-      color: #868b96;
-      margin-top: 6px;
+      color: #6b7280;
+      margin-bottom: 8px;
     }
 
-    .course-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 8px;
-      margin-top: 8px;
+    .teacher-subject {
+      color: #2d6bfa;
+      font-weight: 600;
       font-size: 12px;
-      color: #5b5f69;
-    }
-
-    .course-meta-separator {
-      color: #d1d5db;
     }
 
     @media (min-width: 480px) {
-      .course-card {
-        flex: 0 0 calc(50% - 8px);
-      }
+      .teacher-card { flex: 0 0 calc(50% - 8px); }
     }
-
     @media (min-width: 768px) {
-      .course-card {
-        flex: 0 0 calc(33.333% - 10px);
-      }
+      .teacher-card { flex: 0 0 calc(25% - 12px); }
     }
-
     @media (min-width: 1024px) {
-      .course-card {
-        flex: 0 0 calc(25% - 12px);
-      }
-    }
-
-    @media (max-width: 360px) {
-      .course-title {
-        font-size: 13px;
-      }
-
-      .course-content {
-        padding: 8px 10px 10px;
-      }
+      .teacher-card { flex: 0 0 calc(20% - 12px); }
     }
   </style>
 </head>
 
 <body>
   <main class="container">
-    <section class="classes-section" aria-label="Online Classes">
-      <h3 class="classes-heading">Consistent Classes Shape Strong RRB Preparation</h3>
+    <h2 class="section-title">Learn from India's Best RRB Teachers</h2>
 
-      <div class="classes-highlights">
-        <div class="highlight-item">
-          <span class="highlight-check">✓</span>
-          <span>Chat live with educators</span>
-        </div>
-        <div class="highlight-item">
-          <span class="highlight-check">✓</span>
-          <span>Attempt interactive polls</span>
-        </div>
-        <div class="highlight-item">
-          <span class="highlight-check">✓</span>
-          <span>Get your doubts cleared</span>
-        </div>
-      </div>
-
-      <div class="carousel" aria-label="Live Courses Carousel" role="region" aria-roledescription="carousel">
-        <div class="carousel-header">
-          <button class="carousel-btn" type="button" data-prev aria-label="Previous courses">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
+    <div class="carousel">
+      <div class="carousel-header">
+        <div></div>
+        <div class="carousel-controls">
+          <button class="carousel-btn" data-prev>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
               <path d="m15 18-6-6 6-6"></path>
             </svg>
           </button>
-          <button class="carousel-btn" type="button" data-next aria-label="Next courses">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
+          <button class="carousel-btn" data-next>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
               <path d="M9 18l6-6-6-6"></path>
             </svg>
           </button>
         </div>
+      </div>
 
-        <div class="carousel-viewport" data-viewport>
-          <div class="carousel-track" data-track>
-            <!-- CARD 1 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/October/14/__w-200-400-600__/RRB%20ALP%202025.png.png" alt="RRB ALP 2025 निश्चय Live Batch" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB ALP 2025 निश्चय Live Batch</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+      <div class="carousel-viewport" data-viewport>
+        <div class="carousel-track" data-track>
 
-            <!-- CARD 2 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/September/4/__w-200-400-600__/Course%20Cards%20%20Ishita%20.png.png" alt="RRB Group D तरक्की Live Batch" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB Group D तरक्की Live Batch</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+         <!-- 1 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/Gopika-Super_All_1669814351.png">
+  </div>
+  <h3 class="teacher-name">Gopika Khurana</h3>
+  <p class="teacher-stats">40000+ Students Taught</p>
+  <span class="teacher-subject">Quantitative Aptitude</span>
+</div>
 
-            <!-- CARD 3 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/June/17/__w-200-400-600__/RRB%20ALP%20Fitter.png.png" alt="RRB ALP CBT - 2 (Part B) Fitter 2025 Live Course" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB ALP CBT - 2 (Part B) Fitter 2025 Live Course</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+<!-- 2 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/Lalit%20Rajput%20%281%29_All_1705661744.png">
+  </div>
+  <h3 class="teacher-name">Lalit Kumar</h3>
+  <p class="teacher-stats">10000+ Students Taught</p>
+  <span class="teacher-subject">General Science</span>
+</div>
 
-            <!-- CARD 4 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/September/30/__w-200-400-600__/RRB%20NPTC%202026%20%281%29.png.png" alt="RRB NTPC 2025-26 लक्ष्य Live Course" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB NTPC 2025-26 लक्ष्य Live Course</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+<!-- 3 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/riya_mam_new-removebg-preview_All_1736517103-removebg-preview_All_1747654781.png">
+  </div>
+  <h3 class="teacher-name">Riya Rathore</h3>
+  <p class="teacher-stats">20000+ Students Taught</p>
+  <span class="teacher-subject">General Knowledge</span>
+</div>
 
-            <!-- CARD 5 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/July/8/__w-200-400-600__/RRB%20NTPC%20%28CBT%20-%202%29%20Mission%20Selection%20Live%20Batch%20%281%29.png.png" alt="RRB NTPC (CBT - 2) Mission Selection Live Batch" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB NTPC (CBT - 2) Mission Selection Live Batch</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+<!-- 4 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/image%20%2873%291_All_1691754075.png">
+  </div>
+  <h3 class="teacher-name">Amandeep Sharma</h3>
+  <p class="teacher-stats">100000+ Students Taught</p>
+  <span class="teacher-subject">General Knowledge</span>
+</div>
 
-            <!-- CARD 6 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/September/24/__w-200-400-600__/RRB%20NTPC%20%28CBT%202%29%20%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A5%87%E0%A4%AF%20Mock%20Test%20Batch.png.png" alt="RRB NTPC (CBT 2) ध्येय Mock Test Batch" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB NTPC (CBT 2) ध्येय Mock Test Batch</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+<!-- 5 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/DSC08180__1_-removebg-preview_All_1758110621.png">
+  </div>
+  <h3 class="teacher-name">Sahil Madaan</h3>
+  <p class="teacher-stats">500000+ Students Taught</p>
+  <span class="teacher-subject">General Knowledge</span>
+</div>
 
-            <!-- CARD 7 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/October/28/__w-200-400-600__/RRB%20NTPC%20%28UG%29%202025-26%20%E0%A4%A6%E0%A4%BF%E0%A4%B6%E0%A4%BE%20Live%20Course.png.png" alt="RRB NTPC (UG) 2025-26 दिशा Live Course" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB NTPC (UG) 2025-26 दिशा Live Course</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
+<!-- 6 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/Sunil%20Bishnoi_All_1680175538.png">
+  </div>
+  <h3 class="teacher-name">Sunil Bishnoi</h3>
+  <p class="teacher-stats">10000+ Students Taught</p>
+  <span class="teacher-subject">Computer Awareness</span>
+</div>
 
-            <!-- CARD 8 -->
-            <article class="course-card" role="group" aria-roledescription="slide">
-              <div class="course-image-wrapper">
-                <img src="//cdn.testbook.com/products/2025/July/10/__w-200-400-600__/RRB%20Technician%20GRADE%203%20Gurukul_UPDATED.png.png" alt="RRB Technician Grade 3 गुरुकुल Live Batch" loading="lazy" />
-              </div>
-              <div class="course-content">
-                <h4 class="course-title">RRB Technician Grade 3 गुरुकुल Live Batch</h4>
-                <p class="course-provider">Testbook & Team</p>
-                <div class="course-meta">
-                  <span>Hinglish</span>
-                </div>
-              </div>
-            </article>
-          </div>
+<!-- 7 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/DSC00002__3_-removebg-preview%20%281%29_All_1720704753.png">
+  </div>
+  <h3 class="teacher-name">Chandan Singh</h3>
+  <p class="teacher-stats">50000+ Students Taught</p>
+  <span class="teacher-subject">Logical Reasoning</span>
+</div>
+
+<!-- 8 -->
+<div class="teacher-card">
+  <div class="teacher-photo">
+    <img src="//cdn.testbook.com/resources/productionimages/Gopika-Super_All_1669814351.png">
+  </div>
+  <h3 class="teacher-name">Garima Gautam</h3>
+  <p class="teacher-stats">10000+ Students Taught</p>
+  <span class="teacher-subject">General Knowledge</span>
+</div>
+
         </div>
       </div>
-    </section>
+    </div>
+    <!-- CTA BUTTON -->
+  <div style="
+      margin-top: 24px;
+      text-align: center;
+    ">
+    <a href="https://testbk.co/1i66f" target="_blank" style="
+        display: inline-block;
+        background: #2563eb;
+        color: white;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 12px;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(37,99,235,0.25);
+        transition: 0.2s ease;
+      "
+      onmouseover="this.style.background='#1e4fc7'"
+      onmouseout="this.style.background='#2563eb'"
+    >
+      🚀 Start Your Railway Preparation Trial - Just ₹1 for 2 Days!
+    </a>
+  </div>
   </main>
 
+  <!-- JS -->
   <script>
     (function () {
-      const viewport = document.querySelector("[data-viewport]");
       const track = document.querySelector("[data-track]");
-      const prevBtn = document.querySelector("[data-prev]");
-      const nextBtn = document.querySelector("[data-next]");
-
-      if (!viewport || !track || !prevBtn || !nextBtn) return;
-
+      const viewport = document.querySelector("[data-viewport]");
+      const prev = document.querySelector("[data-prev]");
+      const next = document.querySelector("[data-next]");
       const cards = Array.from(track.children);
-      if (!cards.length) return;
-
       let index = 0;
 
       function cardsPerView() {
         const w = viewport.clientWidth;
-        if (w >= 1024) return 4;
-        if (w >= 768) return 3;
-        if (w >= 480) return 2;
-        return 1;
+        if (w >= 1024) return 5;
+        if (w >= 768) return 4;
+        if (w >= 480) return 3;
+        return 2;
       }
 
       function getGap() {
-        const style = window.getComputedStyle(track);
-        const gap = parseFloat(style.columnGap || style.gap || "16");
-        return isNaN(gap) ? 16 : gap;
+        return 16;
       }
 
-      function getSlideWidth() {
-        if (!cards.length) return 0;
-        const first = cards[0];
-        return first.offsetWidth + getGap();
+      function slideWidth() {
+        return cards[0].offsetWidth + getGap();
       }
 
-      function updateButtons() {
-        const cpv = cardsPerView();
-        const maxIndex = Math.max(0, cards.length - cpv);
-        prevBtn.disabled = index <= 0;
-        nextBtn.disabled = index >= maxIndex;
-      }
-
-      function updatePosition() {
-        const slideWidth = getSlideWidth();
+      function update() {
         const cpv = cardsPerView();
         const maxIndex = Math.max(0, cards.length - cpv);
         if (index > maxIndex) index = maxIndex;
         if (index < 0) index = 0;
-        const offset = -index * slideWidth;
-        track.style.transform = "translateX(" + offset + "px)";
-        updateButtons();
+
+        track.style.transform = `translateX(${-index * slideWidth()}px)`;
+
+        prev.disabled = index === 0;
+        next.disabled = index === maxIndex;
       }
 
-      prevBtn.addEventListener("click", function () {
-        index -= 1;
-        updatePosition();
+      prev.addEventListener("click", () => {
+        index--;
+        update();
       });
 
-      nextBtn.addEventListener("click", function () {
-        index += 1;
-        updatePosition();
+      next.addEventListener("click", () => {
+        index++;
+        update();
       });
 
-      window.addEventListener("resize", updatePosition);
-      window.addEventListener("load", updatePosition);
-      document.addEventListener("DOMContentLoaded", updatePosition);
+      window.addEventListener("resize", update);
+      window.addEventListener("load", update);
+      document.addEventListener("DOMContentLoaded", update);
     })();
   </script>
 
-  <script>
-    document.querySelectorAll('.course-card, .test-card').forEach(card => {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', () => {
-        window.open('https://testbk.co/1i5nl', '_blank');
-      });
-    });
-  </script>
 </body>
 </html>
